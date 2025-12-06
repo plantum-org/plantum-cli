@@ -1,8 +1,0 @@
-{
-    "name": "rene-test-app",
-    "version": "0.1.0",
-    "framework": "plantum",
-    "entry": "src/main.js",
-    "componentsDir": "src/components",
-    "servicesDir":  "src/services"
-}
