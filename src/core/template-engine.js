@@ -71,7 +71,21 @@ function createAppVars(rawName) {
     };
 }
 
+function createFeatureVars(rawName) {
+    const kebab = Naming.toKebabCase(rawName);
+    const pascal = Naming.toPascalCase(rawName);
+    const camel = Naming.toCamelCase(rawName);
+
+    return {
+        name: kebab,
+        className: pascal,
+        camelName: camel,
+        selector: kebab
+    };
+}
+
 export const TemplateEngine = {
     materializeTemplate,
-    createAppVars
+    createAppVars,
+    createFeatureVars
 };
