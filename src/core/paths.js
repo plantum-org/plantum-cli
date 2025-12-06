@@ -24,10 +24,20 @@ function templatesShared() {
     return path.join(templatesRoot(), 'shared');
 }
 
+function templateComponentImport() {
+    return path.join(templatesShared(), 'component-import.js');
+}
+
+function templateComponentRegistration() {
+    return path.join(templatesShared(), 'component-registration.txt');
+}
+
 export const Paths = {
     templatesRoot,
     templatesApp,
     templatesComponent,
     templatesService,
-    templatesShared
+    templatesShared,
+    templateComponentImport,
+    templateComponentRegistration
 };
