@@ -1,0 +1,19 @@
+{
+  "name": "@plantum-org/cli",
+  "version": "0.0.1",
+  "description": "Plantum CLI - Minimal by default",
+  "type": "module",
+  "bin": {
+    "plantum": "bin/plantum.js"
+  },
+  "scripts": {
+    "start": "node bin/plantum.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "plantum-org",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0"
+  }
+}

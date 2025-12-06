@@ -1,0 +1,2 @@
+import __className__Service from '../services/__name__/__name__.service.js';
+services.register('__name__', __className__Service);
