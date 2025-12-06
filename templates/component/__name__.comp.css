@@ -1,0 +1,9 @@
+.__name__ {
+    padding: 1rem;
+    border: 1px dashed #ccc;
+    border-radius: 10px;
+}
+
+.__name__ h2 {
+    margin-bottom: 0.5rem;
+}

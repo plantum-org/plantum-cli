@@ -1,0 +1,1 @@
+import __className__Component from './components/__name__/__name__.comp.js';

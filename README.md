@@ -1,7 +1,6 @@
 # plantum-cli
 
-> **Status:** Early development - not ready for public use.  
-> Internal repository for building the Sprout.js command-line interface.
+> **Status:** Early development - not ready for public use.
 
 ## Overview
 The Plantum CLI provides commands to generate apps, components, services, and further extensible building blocks using a minimal, flexible scaffolding workflow.
@@ -9,9 +8,20 @@ The Plantum CLI provides commands to generate apps, components, services, and fu
 ## Goals (v0.1)
 - Basic project scaffolding (`seed`)
 - Component generation (`leaf`)
-- Service generation (planned)
+- Service generation
 - Automatic component registration in `app.js`
-- Initial support for `grow`, to start the lightweight Kestrel-based development server
+- Initial support for `grow`, to start the lightweight development server
 
 ## Notes
-This repository is private until the initial CLI structure and core commands reach a stable v0.1.
+
+Aim to reach a clean and stable **v0.1** of the CLI - including the initial directory structure, core commands (`seed`, `leaf`, `grow`) and the basic scaffolding flow - **by the end of the year**.
+
+Once published, the CLI can be installed via npm:
+
+```
+npm install -g @plantum-org/cli
+```
+
+👉 **Package on npm:** https://www.npmjs.com/package/@plantum-org/cli
+
+👉 **GitHub organization:** https://github.com/plantum-org
