@@ -2,6 +2,7 @@ import { Command } from 'commander';
 import { createRequire } from 'module';
 
 import { registerSeedCommand } from './commands/seed.js';
+import { registerLeafCommand } from './commands/leaf.js';
 
 const require = createRequire(import.meta.url);
 const { version, description } = require('../package.json');
@@ -13,5 +14,6 @@ program.name('plantum')
     .version(version);
     
 registerSeedCommand(program);
+registerLeafCommand(program);
 
 program.parseAsync(process.argv);
