@@ -22,4 +22,6 @@ Once published, the CLI can be installed via npm:
 npm install -g @plantum-org/cli
 ```
 
-**Package on npm:** https://www.npmjs.com/package/@plantum-org/cli
+👉 **Package on npm:** https://www.npmjs.com/package/@plantum-org/cli
+
+👉 **GitHub organization:** https://github.com/plantum-org
