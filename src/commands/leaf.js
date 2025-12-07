@@ -20,9 +20,9 @@ export function registerLeafCommand(program) {
 
                 await validateLeafContext(context);
                 await materializeLeafComponent(context);
-                //TODO: await registerLeafComponentInAppJs(context);
+                await registerLeafComponentInAppJs(context);
 
-                //TODO: printLeafSuccess(context);
+                printLeafSuccess(context);
             } catch (err) {
                 const message = err instanceof Error
                     ? err.message : String(err);
@@ -114,3 +114,97 @@ async function materializeLeafComponent(context) {
     console.log(chalk.green(`Plantum component '${context.kebabName}' created: ${context.componentRoot}`));
 }
 
+async function registerLeafComponentInAppJs(context) {
+    if (!fs.existsSync(context.appJsPath)) {
+        console.warn(chalk(`Warning: '${context.appJsPath}' not found. Skipping automatic registration.`));
+        return;
+    }
+
+    const importTemplate = await loadTemplateOrWarn(context.importTemplatePath, 'component import');
+    const registrationTemplate = await loadTemplateOrWarn(context.registrationTemplatePath, 'component registration');
+
+    if (!importTemplate || !registrationTemplate) {
+        return;
+    }
+
+    const originalContent = await fs.promises.readFile(context.appJsPath, 'utf8');
+    
+    let updatedContent = originalContent;
+    updatedContent = ensureImportStatement(updatedContent, context.kebabName, context.className, importTemplate);
+    updatedContent = ensureRegistrationStatement(updatedContent, context.kebabName, registrationTemplate);
+
+    if (updatedContent !== originalContent) {
+        await fs.promises.writeFile(context.appJsPath, updatedContent, 'utf8');
+        console.log(chalk.green('Component registered in app.js.'));
+    } else {
+        console.log(chalk.gray('No changes needed in src/app.js.'));
+    }
+}
+
+async function loadTemplateOrWarn(templatePath, description) {
+    try {
+        if (!fs.existsSync(templatePath)) {
+            console.warn(chalk.yellow(`Warning: ${description} template not found at '${templatePath}'. Skipping app.js updates.`));
+            return null;
+        }
+
+        const content = await fs.promises.readFile(templatePath, 'utf-8');
+
+        if (!content.trim()) {
+            console.warn(chalk.yellow(`Warning: ${description} template is empty at '${templatePath}'. Skipping app.js updates.`));
+            return null;
+        }
+
+        return content.trim();
+    } catch (err) {
+        console.warn(chalk.yellow(`Warning: Failed to read ${description} template at '${templatePath}'. Skipping app.js updates.`));
+        console.warn(err instanceof Error ? err.message : String(err));
+        return null;
+    }
+}
+
+function ensureImportStatement(appJsContent, kebabName, className, template) {
+    const importStatement = template
+        .replace(/__className__/g, className)
+        .replace(/__name__/g, kebabName)
+        .trim();
+
+    if (appJsContent.includes(importStatement)) {
+        return appJsContent;
+    }
+
+    if (!appJsContent.includes(IMPORT_MARKER)) {
+        console.warn(chalk.yellow(`Warning: component-imports marker '${IMPORT_MARKER}' not found in app.js. Skipping import insertion.`));
+        return appJsContent;
+    }
+
+    const replacement = `${IMPORT_MARKER}\n${importStatement}`;
+
+    return appJsContent.replace(IMPORT_MARKER, replacement);
+}
+
+function ensureRegistrationStatement(appJsContent, className, template) {
+    const registrationStatement = template
+        .replace(/__className__/g, className)
+        .trim();
+
+    if (appJsContent.includes(registrationStatement)) {
+        return appJsContent;
+    }
+
+    if (!appJsContent.includes(REGISTRATION_MARKER)) {
+        console.warn(chalk.yellow(`Warning: component-registrations marker '${REGISTRATION_MARKER}' not found in app.js. Skipping registration insertion.`));
+        return appJsContent;
+    }
+
+    const replacement = `${REGISTRATION_MARKER}\n\t\t${registrationStatement}`;
+
+    return appJsContent.replace(REGISTRATION_MARKER, replacement);
+}
+
+function printLeafSuccess(context) {
+    console.log();
+    console.log('Next steps:');
+    console.log(chalk.cyan(`Use <${context.vars.selector}></${context.vars.selector}> in your templates.`));
+    console.log();
+}
