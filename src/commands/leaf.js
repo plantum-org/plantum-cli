@@ -131,7 +131,7 @@ async function registerLeafComponentInAppJs(context) {
     
     let updatedContent = originalContent;
     updatedContent = ensureImportStatement(updatedContent, context.kebabName, context.className, importTemplate);
-    updatedContent = ensureRegistrationStatement(updatedContent, context.kebabName, registrationTemplate);
+    updatedContent = ensureRegistrationStatement(updatedContent, context.className, registrationTemplate);
 
     if (updatedContent !== originalContent) {
         await fs.promises.writeFile(context.appJsPath, updatedContent, 'utf8');
